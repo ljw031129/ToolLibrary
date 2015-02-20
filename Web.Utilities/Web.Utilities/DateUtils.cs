@@ -8,16 +8,17 @@ namespace Web.Utilities
 {
     public static class DateUtils
     {
+
         /// <summary>
-        /// 将Unix时间戳转换为DateTime类型时间
+        /// 时间戳转为C#格式时间
         /// </summary>
-        /// <param name="d">double 型数字</param>
-        /// <returns>DateTime</returns>
-        public static System.DateTime ConvertIntDateTime(double d)
+        /// <param name="timeStamp">Unix时间戳格式</param>
+        /// <returns>C#格式时间</returns>
+        public static DateTime GetTime(string timeStamp)
         {
             System.DateTime time = System.DateTime.MinValue;
             System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-            time = startTime.AddMilliseconds(d);
+            time = startTime.AddMilliseconds(long.Parse(timeStamp));
             return time;
         }
         /// <summary>
@@ -25,24 +26,15 @@ namespace Web.Utilities
         /// </summary>
         /// <param name="time"> DateTime时间格式</param>
         /// <returns>Unix时间戳格式</returns>
-        public static int ConvertDateTimeIntInt(System.DateTime time)
+        public static long ConvertDateTimeIntInt(System.DateTime time)
         {
-            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-            return (int)(time - startTime).TotalSeconds;
-        }
-        /// <summary>
-        /// 将c# DateTime时间格式转换为Unix时间戳格式
-        /// </summary>
-        /// <param name="time">时间</param>
-        /// <returns>long</returns>
-        public static long ConvertDateTimeInt(System.DateTime time)
-        {
-            //double intResult = 0;
+            //double intResult = 0; 
             System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1, 0, 0, 0, 0));
-            //intResult = (time- startTime).TotalMilliseconds;
-            long t = (time.Ticks - startTime.Ticks) / 10000;            //除10000调整为13位
+            //intResult = (time- startTime).TotalMilliseconds; 
+            long t = (time.Ticks - startTime.Ticks) / 10000; //除10000调整为13位
             return t;
         }
+
         /// <summary>
         /// Creates a date format of dd MMMM yyyu
         /// </summary>
@@ -72,12 +64,14 @@ namespace Web.Utilities
         /// <returns>28 Days Ago</returns>
         public static string GetPrettyDate(string date)
         {
+
             DateTime time;
-            if (DateTime.TryParse(date, out time))
+            string dateStr = GetTime(date).ToString("yyyy-MM-dd HH:mm:ss");
+            if (DateTime.TryParse(dateStr, out time))
             {
                 var span = DateTime.Now.Subtract(time);
-                var totalDays = (int) span.TotalDays;
-                var totalSeconds = (int) span.TotalSeconds;
+                var totalDays = (int)span.TotalDays;
+                var totalSeconds = (int)span.TotalSeconds;
                 if ((totalDays < 0) || (totalDays >= 0x1f))
                 {
                     return FormatDateTime(date, "dd MMMM yyyy");
@@ -86,36 +80,36 @@ namespace Web.Utilities
                 {
                     if (totalSeconds < 60)
                     {
-                        return "just now";
+                        return "刚刚";
                     }
                     if (totalSeconds < 120)
                     {
-                        return "1 minute ago";
+                        return "1 分钟以前";
                     }
                     if (totalSeconds < 0xe10)
                     {
-                        return string.Format("{0} minutes ago", Math.Floor((double) (((double) totalSeconds)/60.0)));
+                        return string.Format("{0} 分钟前", Math.Floor((double)(((double)totalSeconds) / 60.0)));
                     }
                     if (totalSeconds < 0x1c20)
                     {
-                        return "1 hour ago";
+                        return "1 小时前";
                     }
                     if (totalSeconds < 0x15180)
                     {
-                        return string.Format("{0} hours ago", Math.Floor((double) (((double) totalSeconds)/3600.0)));
+                        return string.Format("{0} 小时前", Math.Floor((double)(((double)totalSeconds) / 3600.0)));
                     }
                 }
                 if (totalDays == 1)
                 {
-                    return "yesterday";
+                    return "昨天";
                 }
                 if (totalDays < 7)
                 {
-                    return string.Format("{0} days ago", totalDays);
+                    return string.Format("{0} 天前", totalDays);
                 }
                 if (totalDays < 0x1f)
                 {
-                    return string.Format("{0} weeks ago", Math.Ceiling((double) (((double) totalDays)/7.0)));
+                    return string.Format("{0} 周前", Math.Ceiling((double)(((double)totalDays) / 7.0)));
                 }
             }
             return date;
@@ -166,7 +160,7 @@ namespace Web.Utilities
         private static DateTime FirstDateOfWeek(int year, int weekOfYear)
         {
             var jan1 = new DateTime(year, 1, 1);
-            var daysOffset = (int) CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek - (int) jan1.DayOfWeek;
+            var daysOffset = (int)CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek - (int)jan1.DayOfWeek;
             var firstMonday = jan1.AddDays(daysOffset);
             var firstWeek = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(jan1,
                                                                               CultureInfo.CurrentCulture.DateTimeFormat.
@@ -177,7 +171,7 @@ namespace Web.Utilities
             {
                 weekOfYear -= 1;
             }
-            return firstMonday.AddDays(weekOfYear*7);
+            return firstMonday.AddDays(weekOfYear * 7);
         }
 
         /// <summary>

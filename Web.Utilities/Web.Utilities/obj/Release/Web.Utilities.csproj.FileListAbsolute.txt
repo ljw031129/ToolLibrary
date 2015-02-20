@@ -2,3 +2,7 @@ E:\数据解析2014\ToolLibrary\Web.Utilities\Web.Utilities\bin\Release\Web.Util
 E:\数据解析2014\ToolLibrary\Web.Utilities\Web.Utilities\bin\Release\Web.Utilities.pdb
 E:\数据解析2014\ToolLibrary\Web.Utilities\Web.Utilities\obj\Release\Web.Utilities.dll
 E:\数据解析2014\ToolLibrary\Web.Utilities\Web.Utilities\obj\Release\Web.Utilities.pdb
+E:\GitHub\ToolLibrary\Web.Utilities\Web.Utilities\bin\Release\Web.Utilities.dll
+E:\GitHub\ToolLibrary\Web.Utilities\Web.Utilities\bin\Release\Web.Utilities.pdb
+E:\GitHub\ToolLibrary\Web.Utilities\Web.Utilities\obj\Release\Web.Utilities.dll
+E:\GitHub\ToolLibrary\Web.Utilities\Web.Utilities\obj\Release\Web.Utilities.pdb
